@@ -12,4 +12,4 @@ entry = "src/chart.tw"
 # minimum this code actually compiles under rather than the newest release at
 # the time of writing. See the note in README.md and docs/needs.md.
 [dependencies]
-twill = { version = "^1.7.0", git = "https://github.com/twill-lang/twill" }
+twill = { version = "^1.9.0", git = "https://github.com/twill-lang/twill" }
