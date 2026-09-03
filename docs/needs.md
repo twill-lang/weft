@@ -162,14 +162,16 @@ conversion to `Str` fixes it without a new type.
 **Needs:** a sort on `Arr[F64]`, or a comparator-taking sort on `Arr[T]`
 **Used by:** `src/bars.tw` (`sorted_copy`, for the quartiles that set the
 histogram bin width)
-**Status:** **open.** 1.7.1 has a systems-mode `sort`, but only on strings:
-`sort` on an `Arr[F64]` is `runtime error: sort on a list expects every element
-to be a string`. numeric mode has `sort`, `argsort` and `topk` on tensors. There
-is still no ordering operation for `Arr[F64]` and no comparator-taking sort.
+**Status: delivered in twill 1.9.0, and taken up.** `sort` orders a list of
+numbers and takes a comparison, so `sorted_copy` is one line and weft ships no
+sort of its own.
 
-weft ships an insertion sort. It is correct and it is quadratic, and it is called
-on the caller's entire sample. It is acceptable only because a histogram is drawn
-once rather than per frame, and that is not a property to rely on.
+What it said while it was open, because the reasoning is the record: 1.7.1's
+systems-mode `sort` accepted strings only, so `sort` on an `Arr[F64]` was
+`runtime error: sort on a list expects every element to be a string`, and weft
+shipped an insertion sort that was correct, quadratic, and called on the
+caller's entire sample. It was acceptable only because a histogram is drawn once
+rather than per frame, and that is not a property to rely on.
 
 ### 9. Immutable top-level bindings
 
