@@ -178,29 +178,17 @@ fn quantile(sorted: Arr[F64], q: F64) -> F64 {
   sorted[i] * (1.0 - frac) + sorted[i + 1] * frac
 }
 
-# Insertion sort. The only caller is the quartile calculation on a sample that
-# is already in memory, and a histogram is drawn once per plot rather than per
-# frame, so the simpler code wins over the faster one.
-fn sorted_copy(xs: Arr[F64]) -> Arr[F64] {
-  let out: Arr[F64] = []
-  let i: I64 = 0
-  while i < len(xs) {
-    out.push(xs[i])
-    i = i + 1
-  }
-  let a: I64 = 1
-  while a < len(out) {
-    let v = out[a]
-    let b = a - 1
-    while b >= 0 && out[b] > v {
-      out[b + 1] = out[b]
-      b = b - 1
-    }
-    out[b + 1] = v
-    a = a + 1
-  }
-  out
-}
+# The builtin sort, behind weft's own name.
+#
+# This was an insertion sort until twill 1.9.0, and the comment defended it on
+# the grounds that a histogram is drawn once per plot rather than per frame. The
+# defence was fair and is no longer needed: `sort` orders a list of numbers now
+# (docs/needs.md entry 8), so the quadratic version is not the simpler code any
+# more, it is just the slower one.
+#
+# It copies rather than sorting in place, which is what the caller wants and
+# what the builtin does anyway.
+fn sorted_copy(xs: Arr[F64]) -> Arr[F64] = sort(xs)
 
 fn cbrt(v: F64) -> F64 = exp(log(v) / 3.0)
 
