@@ -254,7 +254,7 @@ fn bar_svg(title: Str, bs: Arr[bars.Bar], b: Box) -> Str {
 }
 
 fn heatmap_svg(title: Str, m: hm.Matrix, b: Box) -> Str {
-  let r = hm.range_of(m)
+  let (lo, hi) = hm.range_of(m)
   let out = header(b) + background(b) +
     "<text x=\"" + str(b.left) + "\" y=\"18\" fill=\"" + ACCENT + "\" font-size=\"13\">" +
     escape(title) + "</text>\n"
@@ -264,7 +264,7 @@ fn heatmap_svg(title: Str, m: hm.Matrix, b: Box) -> Str {
   while row < m.rows {
     let col: I64 = 0
     while col < m.cols {
-      let t = hm.normalise(hm.at(m, row, col), r)
+      let t = hm.normalise(hm.at(m, row, col), lo, hi)
       out = out + "<rect x=\"" + str(b.left + col * cw) + "\" y=\"" + str(b.top + row * chh) +
         "\" width=\"" + str(cw) + "\" height=\"" + str(chh) + "\" fill=\"" + ramp_hex(t) + "\"/>\n"
       col = col + 1
@@ -284,7 +284,7 @@ fn ramp_hex(t: I64) -> Str {
 fn mix(r0: I64, g0: I64, b0: I64, r1: I64, g1: I64, b1: I64, t: I64) -> Str =
   "#" + hex2(r0 + (r1 - r0) * t / 1000) + hex2(g0 + (g1 - g0) * t / 1000) + hex2(b0 + (b1 - b0) * t / 1000)
 
-let HEX: Str = "0123456789ABCDEF"
+const HEX: Str = "0123456789ABCDEF"
 
 fn hex2(v: I64) -> Str {
   let x = if v < 0 { 0 } else if v > 255 { 255 } else { v }

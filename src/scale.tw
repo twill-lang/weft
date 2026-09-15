@@ -88,10 +88,10 @@ fn ceil_div(v: F64, step: F64) -> I64 {
 # labels readable in the first place.
 fn axis(lo: F64, hi: F64, target: I64) -> Axis {
   let n = if target < 2 { 2 } else { target }
-  let padded = pad_degenerate(lo, hi)
-  let step = nice_step((padded.hi - padded.lo) / f64(n - 1))
-  let a = floor_to(padded.lo, step)
-  let b = ceil_to(padded.hi, step)
+  let (plo, phi) = pad_degenerate(lo, hi)
+  let step = nice_step((phi - plo) / f64(n - 1))
+  let a = floor_to(plo, step)
+  let b = ceil_to(phi, step)
   Axis {
     lo: a,
     hi: b,
@@ -101,15 +101,14 @@ fn axis(lo: F64, hi: F64, target: I64) -> Axis {
   }
 }
 
-struct Span { lo: F64, hi: F64 }
-
 # A series of identical values has no range to scale. Give it one proportional
 # to its own magnitude, so a flat line at 1e6 does not get a range of 1 and a
-# flat line at 1e-6 does not get a range of 1 either.
-fn pad_degenerate(lo: F64, hi: F64) -> Span {
-  if hi > lo { return Span { lo: lo, hi: hi } }
+# flat line at 1e-6 does not get a range of 1 either. Returns the pair as a
+# tuple: the low and the high have no name between them worth a struct.
+fn pad_degenerate(lo: F64, hi: F64) -> (F64, F64) {
+  if hi > lo { return (lo, hi) }
   let mag = f.max_f(f.abs_f(lo), 1.0)
-  Span { lo: lo - mag * 0.05, hi: hi + mag * 0.05 }
+  (lo - mag * 0.05, hi + mag * 0.05)
 }
 
 fn tick_values(lo: F64, hi: F64, step: F64) -> Arr[F64] {

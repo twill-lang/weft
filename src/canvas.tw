@@ -200,7 +200,7 @@ fn bit_index(res: Resolution, cx: I64, cy: I64) -> I64 = match res {
   Resolution.Ascii => 0,
 }
 
-let QUADRANTS: Arr[Str] = [
+const QUADRANTS: Arr[Str] = [
   " ", "▘", "▝", "▀",
   "▖", "▌", "▞", "▛",
   "▗", "▚", "▐", "▜",

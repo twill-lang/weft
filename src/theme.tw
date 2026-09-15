@@ -66,8 +66,8 @@ fn ramp_at(t_x1000: I64) -> col.Rgb = col.ramp3_at(deep(), teal(), accent(), t_x
 # Density glyphs, dark to light, for the tiers where the ramp is not available.
 # Five steps because a reader can order five shades of one glyph family reliably
 # and cannot order eight.
-let DENSITY: Arr[Str] = [" ", "░", "▒", "▓", "█"]
-let DENSITY_ASCII: Arr[Str] = [" ", ".", ":", "+", "#"]
+const DENSITY: Arr[Str] = [" ", "░", "▒", "▓", "█"]
+const DENSITY_ASCII: Arr[Str] = [" ", ".", ":", "+", "#"]
 
 fn density(c: cp.Caps, t_x1000: I64) -> Str {
   let i = clamp_i(t_x1000 * 5 / 1000, 0, 4)

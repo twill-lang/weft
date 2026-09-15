@@ -26,9 +26,12 @@ here executed and this section said so. It runs now: the 6 test suites under
 `tests/` pass, and CI runs them against a released twill on every push rather
 than gating on the prose in this file.
 
-**twill 1.7.0 is the minimum, and it is a real floor rather than a cautious
-one.** `src/theme.tw:33` and `src/svg.tw:35` dispatch on a palette index using
-integer literals as `match` patterns:
+**twill 1.12.0 is the minimum, and it is a real floor rather than a cautious
+one.** `src/scale.tw` and `src/heatmap.tw` return a low and a high as a tuple,
+`(F64, F64)`, which arrived in 1.12.0, and the four glyph tables are declared
+`const`, which arrived in 1.10.0. The floor before that was 1.7.0, for the same
+kind of reason: `src/theme.tw:33` and `src/svg.tw:35` dispatch on a palette
+index using integer literals as `match` patterns:
 
 ```rust
 match i % 4 {
@@ -48,8 +51,9 @@ line 22: in import "theme.tw": line 33:5: expected identifier but found "0"
 line 4: in import "../src/svg.tw": line 35:5: expected identifier but found "0"
 ```
 
-`docs/needs.md` is the list of what this library asked the language for. It now
-records which of those 1.7 delivered and which are still open.
+`docs/needs.md` is the list of what this library asked the language for. It
+records which of those 1.7, 1.9, 1.10 and 1.12 delivered and which are still
+open.
 
 ## Getting started
 
@@ -57,9 +61,9 @@ records which of those 1.7 delivered and which are still open.
 # Assets: linux-amd64, linux-arm64, darwin-amd64, darwin-arm64,
 # windows-amd64.exe.
 curl -fsSL -o twill \
-  https://github.com/twill-lang/twill/releases/download/v1.7.1/twill-v1.7.1-linux-amd64
+  https://github.com/twill-lang/twill/releases/download/v1.12.0/twill-v1.12.0-linux-amd64
 chmod +x twill
-./twill --version        # Twill 1.7.1
+./twill --version        # Twill 1.12.0
 
 git clone https://github.com/twill-lang/weft && cd weft
 ../twill test tests
@@ -287,7 +291,7 @@ tests/          six suites, collected by `twill test`. harness.tw holds the
                 one now. bars, heatmap, sparkline and theme have no file of
                 their own; the first and third are covered from chart_test.tw
                 and the other two are not covered at all
-docs/needs.md   what weft asked the language for, and what 1.7 delivered
+docs/needs.md   what weft asked the language for, and what each release delivered
 examples/       loss.tw, the training loop above
 ```
 

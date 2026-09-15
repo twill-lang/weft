@@ -8,6 +8,22 @@ cannot point at.
 Seventeen commits since `v0.1.0`, all of them either following twill's releases
 or fixing what following them exposed.
 
+### The glyph tables are `const`, and a low and a high come back as a tuple
+
+`docs/needs.md` entries 9 and 13 were open and twill had delivered both. `HEX`,
+`QUADRANTS`, `DENSITY` and `LEVELS`, with the two ASCII fallbacks, are declared
+`const` (twill 1.10), so an assignment through any of them in its own file is
+refused by the checker. The guarantee does not yet cross an import, and the
+needs entry says so rather than claiming more.
+
+`pad_degenerate` and `range_of` return `(F64, F64)` (twill 1.12) and their
+callers destructure the pair. The `Span` and `Range` structs are gone; they were
+two of the four single-use type names entry 13 complained about. The heatmap
+functions that took a `Range` take `lo` and `hi`.
+
+The minimum twill is 1.12.0 now, in `spool.toml`, in CI and in the README. The
+six suites pass unchanged, which is the point: nothing a test could see moved.
+
 ### The minimum twill is now 1.7.0, and it is load-bearing
 
 `src/theme.tw:33` and `src/svg.tw:35` dispatch the palette index on integer
