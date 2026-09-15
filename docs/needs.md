@@ -178,10 +178,20 @@ rather than per frame, and that is not a property to rely on.
 **Needs:** a `const`, or `let` at the top level being read-only
 **Used by:** `src/canvas.tw` (`QUADRANTS`), `src/theme.tw` (`DENSITY`),
 `src/sparkline.tw` (`LEVELS`), `src/svg.tw` (`HEX`)
-**Status:** **open.** There is no `const` in 1.7.1: `const K: I64 = 1` is a
-syntax error at the top level and inside a function. `Arr` has reference
-semantics and `let` binds a handle, so every one of these glyph tables is
-writable by any importer.
+**Status: delivered in twill 1.10.0 for the declaring file, and taken up.**
+All four tables, and the two ASCII fallbacks beside `DENSITY` and `LEVELS`, are
+declared `const`. Within the file that declares one, an assignment through the
+name, or to an element of it, is refused by `twill check`. What 1.10 does not
+do, and says so in its language guide, is cross a file boundary: the checker
+reads one file, so an importer that writes `svg.HEX = "x"` is still accepted
+today. That is the half this entry actually wanted, and twill's own roadmap
+names it as the next step for `const`. The tables are declared the way the
+guarantee will be read, so nothing in weft changes when it lands.
+
+What it said while it was open: there is no `const` in 1.7.1; `const K: I64 =
+1` is a syntax error at the top level and inside a function. `Arr` has
+reference semantics and `let` binds a handle, so every one of these glyph
+tables is writable by any importer.
 
 These are lookup tables. A library whose palette can be reassigned by a caller,
 accidentally or otherwise, has no way to keep the promise the theme file makes
@@ -240,9 +250,16 @@ collects, so it stayed.
 **Needs:** tuples, or destructuring a returned struct
 **Used by:** `src/scale.tw` (`Span`), `src/heatmap.tw` (`Range`),
 `src/canvas.tw` (`Cp` in twill's own `width.tw`, for the same reason)
-**Status:** **open.** `(1, 2)` is a syntax error in 1.7.1. Not in the design,
-and a struct is the stated answer.
+**Status: delivered in twill 1.12.0, and taken up.** `pad_degenerate` in
+`src/scale.tw` and `range_of` in `src/heatmap.tw` return `(F64, F64)`, and
+their callers bind the pair with `let (lo, hi) = ...`. `Span` and `Range` are
+deleted; the three heatmap functions that took a `Range` take `lo` and `hi`
+instead, because a tuple is destructured or passed on whole and a parameter
+that is read by part wants two names. twill's own changelog for 1.12 cites this
+entry's four type names as one of the reasons the feature exists.
 
-Every function that computes a low and a high declares a two-field struct to hand
-them back. It works, and it puts four single-use type names in a library that has
-eleven real ones. Low priority: this is a readability complaint, not a wall.
+What it said while it was open: `(1, 2)` is a syntax error in 1.7.1, not in the
+design, and a struct is the stated answer. Every function that computes a low
+and a high declares a two-field struct to hand them back. It works, and it puts
+four single-use type names in a library that has eleven real ones. Low priority:
+this is a readability complaint, not a wall.

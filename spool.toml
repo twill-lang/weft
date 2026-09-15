@@ -7,9 +7,10 @@ entry = "src/chart.tw"
 # modules are `std/term/...` as of twill 1.7 and are compiled into the binary,
 # and a working checkout has no `twill_modules/` in it.
 #
-# The entry stays because the floor is real. `src/theme.tw` and `src/svg.tw`
-# match on integer literals, which 1.6.7 cannot parse, so `^1.7.0` is the
-# minimum this code actually compiles under rather than the newest release at
-# the time of writing. See the note in README.md and docs/needs.md.
+# The entry stays because the floor is real. `src/scale.tw` and
+# `src/heatmap.tw` return a tuple, which arrived in 1.12.0, and the glyph
+# tables are `const`, which arrived in 1.10.0, so `^1.12.0` is the minimum this
+# code actually compiles under rather than the newest release at the time of
+# writing. See the note in README.md and docs/needs.md.
 [dependencies]
-twill = { version = "^1.9.0", git = "https://github.com/twill-lang/twill" }
+twill = { version = "^1.12.0", git = "https://github.com/twill-lang/twill" }

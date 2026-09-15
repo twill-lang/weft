@@ -19,8 +19,8 @@ import "fmtnum.tw" as f
 # Eighth-blocks, low to high. The empty cell is not used: a value at the bottom
 # of the range is still a measurement and drawing it as a blank makes it look
 # like missing data, which is the other thing a sparkline is used to show.
-let LEVELS: Arr[Str] = ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
-let LEVELS_ASCII: Arr[Str] = ["_", "_", ".", ".", "-", "-", "^", "^"]
+const LEVELS: Arr[Str] = ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█"]
+const LEVELS_ASCII: Arr[Str] = ["_", "_", ".", ".", "-", "-", "^", "^"]
 
 fn render(caps: cp.Caps, ys: Arr[F64]) -> Str {
   if len(ys) == 0 { return "" }
