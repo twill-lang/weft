@@ -61,9 +61,9 @@ open.
 # Assets: linux-amd64, linux-arm64, darwin-amd64, darwin-arm64,
 # windows-amd64.exe.
 curl -fsSL -o twill \
-  https://github.com/twill-lang/twill/releases/download/v1.12.0/twill-v1.12.0-linux-amd64
+  https://github.com/twill-lang/twill/releases/download/v1.13.0/twill-v1.13.0-linux-amd64
 chmod +x twill
-./twill --version        # Twill 1.12.0
+./twill --version        # Twill 1.13.0
 
 git clone https://github.com/twill-lang/weft && cd weft
 ../twill test tests

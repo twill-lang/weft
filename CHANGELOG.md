@@ -5,8 +5,16 @@ cannot point at.
 
 ## Unreleased
 
-Seventeen commits since `v0.1.0`, all of them either following twill's releases
+Eighteen commits since `v0.1.0`, all of them either following twill's releases
 or fixing what following them exposed.
+
+### Take twill 1.13.0
+
+twill 1.13.0 is released, so the pin follows it. `spool.toml`, CI and the
+README install line move from 1.12.0 to 1.13.0. The compile floor stays 1.12.0,
+because the tuple returns this code relies on arrived there and nothing newer is
+used; the pin sits one release ahead of the floor, and the spool comment says
+so. No source or test changed and the six suites pass unchanged on 1.13.0.
 
 ### The glyph tables are `const`, and a low and a high come back as a tuple
 
@@ -21,7 +29,8 @@ callers destructure the pair. The `Span` and `Range` structs are gone; they were
 two of the four single-use type names entry 13 complained about. The heatmap
 functions that took a `Range` take `lo` and `hi`.
 
-The minimum twill is 1.12.0 now, in `spool.toml`, in CI and in the README. The
+The compile floor is twill 1.12.0, which is what `spool.toml`, CI and the README
+recorded at this point; the pin later followed the release past it, above. The
 six suites pass unchanged, which is the point: nothing a test could see moved.
 
 ### The minimum twill is now 1.7.0, and it is load-bearing

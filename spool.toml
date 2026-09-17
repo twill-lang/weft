@@ -10,7 +10,8 @@ entry = "src/chart.tw"
 # The entry stays because the floor is real. `src/scale.tw` and
 # `src/heatmap.tw` return a tuple, which arrived in 1.12.0, and the glyph
 # tables are `const`, which arrived in 1.10.0, so `^1.12.0` is the minimum this
-# code actually compiles under rather than the newest release at the time of
-# writing. See the note in README.md and docs/needs.md.
+# code actually compiles under. The pin follows the twill release past that
+# floor, so it reads `^1.13.0`; 1.12.0 stays the real floor. See the note in
+# README.md and docs/needs.md.
 [dependencies]
-twill = { version = "^1.12.0", git = "https://github.com/twill-lang/twill" }
+twill = { version = "^1.13.0", git = "https://github.com/twill-lang/twill" }
